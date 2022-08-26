@@ -30,8 +30,11 @@ void makeDataEntryCorrect(double* a, double* b, double* c)
     assert(isNotNullPointer(c));
 
     assert(!isnan(*a));
+    assert(!isinf(*a));
     assert(!isnan(*b));
+    assert(!isinf(*b));
     assert(!isnan(*c));
+    assert(!isinf(*c));
 }
 
 bool isEqual(double firstNumber, double secondNumber)
