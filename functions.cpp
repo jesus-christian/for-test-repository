@@ -55,9 +55,9 @@ void makeDataEntryCorrect(double* a, double* b, double* c)
     assert(isNotNullPointer(b));
     assert(isNotNullPointer(c));
 
-    assert(!isfinit(*a));
-    assert(!isfinit(*b));
-    assert(!isfinit(*c));
+    assert(!isfinite(*a));
+    assert(!isfinite(*b));
+    assert(!isfinite(*c));
 }
 
 //----------------------------------------------------------
@@ -73,6 +73,9 @@ void makeDataEntryCorrect(double* a, double* b, double* c)
 //----------------------------------------------------------
 bool isEqual(double firstNumber, double secondNumber)
 {
+    assert(!isfinite(firstNumber));
+    assert(!isfinite(secondNumber));
+
     return fabs(firstNumber - secondNumber) < EPS;
 }
 
@@ -93,6 +96,10 @@ bool isEqual(double firstNumber, double secondNumber)
 //----------------------------------------------------------
 double discriminant(double a, double b, double c)
 {
+    assert(!isfinite(a));
+    assert(!isfinite(b));
+    assert(!isfinite(c));
+
     return (b*b - 4*a*c);
 }
 
@@ -113,6 +120,13 @@ double discriminant(double a, double b, double c)
 //----------------------------------------------------------
 enum equationSolveType defineEquationSolveType(double* a, double* b, double* c)
 {
+    assert(isNotNullPointer(a));
+    assert(isNotNullPointer(b));
+    assert(isNotNullPointer(c));
+
+    assert(!isfinite(*a));
+    assert(!isfinite(*b));
+    assert(!isfinite(*c));
 
     if      (isEqual(*a, 0.0) && isEqual(*b, 0.0) && isEqual(*c, 0.0))
         return INFINITY_AMOUNT_OF_ROOTS;
@@ -152,6 +166,12 @@ enum equationSolveType defineEquationSolveType(double* a, double* b, double* c)
 //----------------------------------------------------------
 void solveLinearEquation             (double b, double c, double* firstRoot)
 {
+    assert(isNotNullPointer(firstRoot));
+
+    assert(!isfinite(b));
+    assert(!isfinite(c));
+    assert(!isfinite(*firstRoot));
+
     double root = -c / b;
     *firstRoot = root;
 }
@@ -175,6 +195,15 @@ void solveLinearEquation             (double b, double c, double* firstRoot)
 //----------------------------------------------------------
 void solveQuadraticEquation(double a, double b, double c, double* firstRoot, double* secondRoot)
 {
+    assert(isNotNullPointer(firstRoot));
+    assert(isNotNullPointer(secondRoot));
+
+    assert(!isfinite(a));
+    assert(!isfinite(b));
+    assert(!isfinite(c));
+    assert(!isfinite(*firstRoot));
+    assert(!isfinite(*secondRoot));
+
     double d = discriminant(a, b, c);
     double squareRoot = sqrt(d);
 
@@ -206,6 +235,15 @@ void solveQuadraticEquation(double a, double b, double c, double* firstRoot, dou
 //----------------------------------------------------------
 void solveEquation(double a, double b, double c, enum equationSolveType* definedEquationSolveType, double* firstRoot, double* secondRoot)
 {
+    assert(isNotNullPointer(firstRoot));
+    assert(isNotNullPointer(secondRoot));
+
+    assert(!isfinite(a));
+    assert(!isfinite(b));
+    assert(!isfinite(c));
+    assert(!isfinite(*firstRoot));
+    assert(!isfinite(*secondRoot));
+
     *firstRoot = 0.0, *secondRoot = 0.0;
     *definedEquationSolveType = defineEquationSolveType(&a, &b, &c);
 
@@ -245,6 +283,8 @@ void solveEquation(double a, double b, double c, enum equationSolveType* defined
 //----------------------------------------------------------
 void printResultsOfSolvedEquation(enum equationSolveType definedEquationSolveType, double firstRoot, double secondRoot)
 {
+    assert(!isfinite(firstRoot));
+    assert(!isfinite(secondRoot));
 
     switch (definedEquationSolveType)
     {
@@ -292,6 +332,12 @@ void printResultsOfSolvedEquation(enum equationSolveType definedEquationSolveTyp
 //----------------------------------------------------------
 int oneUnitTest(double a, double b, double c, enum equationSolveType expectedEquationSolveType, double firstExpectedRoot, double secondExpectedRoot)
 {
+    assert(!isfinite(a));
+    assert(!isfinite(b));
+    assert(!isfinite(c));
+    assert(!isfinite(firstExpectedRoot));
+    assert(!isfinite(secondExpectedRoot));
+
     enum equationSolveType definedEquationSolveType = {};
     double firstSolvedRoot = 0.0, secondSolvedRoot = 0.0;
 
