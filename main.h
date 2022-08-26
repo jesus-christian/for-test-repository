@@ -28,7 +28,8 @@ double discriminant(double a, double b, double c);
 enum equationSolveType defineEquationSolveType(double* a, double* b, double* c);
 void solveLinearEquation             (double b, double c, double* firstRoot);
 void solveQuadraticEquation(double a, double b, double c, double* firstRoot, double* secondRoot);
-void solveEquation(double a, double b, double c, double* firstRoot, double* secondRoot);
+void solveEquation(double a, double b, double c, enum equationSolveType* definedEquationSolveType, double* firstRoot, double* secondRoot);
+void printResultsOfSolvedEquation(enum equationSolveType definedEquationSolveType, double firstRoot, double secondRoot);
 int oneUnitTest            (double a, double b, double c, enum equationSolveType expectedEquationSolveType, double firstExpectedRoot, double secondExpectedRoot);
 void unitTests();
 

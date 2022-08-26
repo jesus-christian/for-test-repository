@@ -92,11 +92,35 @@ void solveQuadraticEquation(double a, double b, double c, double* firstRoot, dou
     }
 }
 
-void solveEquation(double a, double b, double c, double* firstRoot, double* secondRoot)
+void solveEquation(double a, double b, double c, enum equationSolveType* definedEquationSolveType, double* firstRoot, double* secondRoot)
 {
     *firstRoot = 0.0, *secondRoot = 0.0;
-    enum equationSolveType definedEquationSolveType = defineEquationSolveType(&a, &b, &c);
+    *definedEquationSolveType = defineEquationSolveType(&a, &b, &c);
 
+    switch (*definedEquationSolveType)
+    {
+        case NO_ROOTS:
+            break;
+
+        case INFINITY_AMOUNT_OF_ROOTS:
+            break;
+
+        case LINEAR:
+            solveLinearEquation                 (b, c, firstRoot);
+            break;
+
+        case QUADRATIC:
+            solveQuadraticEquation           (a, b, c,   firstRoot,  secondRoot);
+            break;
+            
+        default:
+            break;
+    }
+}
+
+void printResultsOfSolvedEquation(enum equationSolveType definedEquationSolveType, double firstRoot, double secondRoot)
+{
+    
     switch (definedEquationSolveType)
     {
         case NO_ROOTS:
@@ -108,13 +132,11 @@ void solveEquation(double a, double b, double c, double* firstRoot, double* seco
             break;
 
         case LINEAR:
-            solveLinearEquation                 (b, c, firstRoot);
-            printf("There is 1 root: %.2lg\n",        *firstRoot); 
+            printf("There is 1 root: %.2lg\n",        firstRoot); 
             break;
 
         case QUADRATIC:
-            solveQuadraticEquation           (a, b, c,   firstRoot,  secondRoot);
-            printf("There are 2 roots: %.2lg, %.2lg\n", *firstRoot, *secondRoot);
+            printf("There are 2 roots: %.2lg, %.2lg\n", firstRoot, secondRoot);
             break;
             
         default:
@@ -124,8 +146,10 @@ void solveEquation(double a, double b, double c, double* firstRoot, double* seco
 
 int oneUnitTest(double a, double b, double c, enum equationSolveType expectedEquationSolveType, double firstExpectedRoot, double secondExpectedRoot)
 {
+    enum equationSolveType definedEquationSolveType = {};
     double firstSolvedRoot = 0.0, secondSolvedRoot = 0.0;
-    solveEquation(a, b, c, &firstSolvedRoot, &secondSolvedRoot);
+
+    solveEquation(a, b, c, &definedEquationSolveType, &firstSolvedRoot, &secondSolvedRoot);
 
     enum equationSolveType solvedEquationSolveType = defineEquationSolveType(&a, &b, &c);
     
