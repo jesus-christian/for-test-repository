@@ -6,7 +6,7 @@
 
 bool isNotNullPointer(double* p)
 {
-    return (!p);
+    return (p);
 }
 
 void makeDataEntryCorrect(double* a, double* b, double* c)
@@ -91,27 +91,27 @@ void solveQuadraticEquation(double a, double b, double c, double* firstRoot, dou
 
 void solveEquation(double a, double b, double c, double* firstRoot, double* secondRoot)
 {
-    //double firstRoot = 0.0, secondRoot = 0.0;
+    *firstRoot = 0.0, *secondRoot = 0.0;
     enum equationSolveType definedEquationSolveType = defineEquationSolveType(&a, &b, &c);
 
     switch (definedEquationSolveType)
     {
         case NO_ROOTS:
-            //printf("There are no roots\n");
+            printf("There are no roots\n");
             break;
 
         case INFINITY_AMOUNT_OF_ROOTS:
-            //printf("There are infinity amount of roots\n");
+            printf("There are infinity amount of roots\n");
             break;
 
         case LINEAR:
             solveLinearEquation                 (b, c, firstRoot);
-            //printf("There is 1 root: %.2lg\n",          firstRoot); 
+            printf("There is 1 root: %.2lg\n",        *firstRoot); 
             break;
 
         case QUADRATIC:
-            solveQuadraticEquation           (a, b, c, firstRoot, secondRoot);
-            //printf("There are 2 roots: %.2lg, %.2lg\n", firstRoot, secondRoot);
+            solveQuadraticEquation           (a, b, c,   firstRoot,  secondRoot);
+            printf("There are 2 roots: %.2lg, %.2lg\n", *firstRoot, *secondRoot);
             break;
             
         default:
