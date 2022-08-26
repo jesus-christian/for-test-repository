@@ -13,16 +13,7 @@ void makeDataEntryCorrect(double* a, double* b, double* c)
 {
     
     while (scanf("%lg %lg %lg", a, b, c) != 3)
-    {
-        /*
-        assert(isNotNullPointer(a));
-        assert(isNotNullPointer(b));
-        assert(isNotNullPointer(c));
-
-        assert(!isnan(*a));
-        assert(!isnan(*b));
-        assert(!isnan(*c));
-        */
+    { 
         printf("Data entry is not correct, please try again\n");
         while (getchar() != '\n')
         {
@@ -33,6 +24,14 @@ void makeDataEntryCorrect(double* a, double* b, double* c)
     {
         continue;
     }
+
+    assert(isNotNullPointer(a));
+    assert(isNotNullPointer(b));
+    assert(isNotNullPointer(c));
+
+    assert(!isnan(*a));
+    assert(!isnan(*b));
+    assert(!isnan(*c));
 }
 
 bool isEqual(double firstNumber, double secondNumber)
