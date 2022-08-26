@@ -8,6 +8,7 @@ bool isNotNullPointer(double* p)
 {
     return (!p);
 }
+
 void makeDataEntryCorrect(double* a, double* b, double* c)
 {
     
@@ -33,14 +34,17 @@ void makeDataEntryCorrect(double* a, double* b, double* c)
         continue;
     }
 }
+
 bool isEqual(double firstNumber, double secondNumber)
 {
     return fabs(firstNumber - secondNumber) < EPS;
 }
+
 double discriminant(double a, double b, double c)
 {
     return (b*b - 4*a*c);
 }
+
 enum equationSolveType defineEquationSolveType(double* a, double* b, double* c)
 {
     
@@ -66,11 +70,13 @@ enum equationSolveType defineEquationSolveType(double* a, double* b, double* c)
             return QUADRATIC;
     }
 }
+
 void solveLinearEquation             (double b, double c, double* firstRoot)
 {
     double root = -c / b;
     *firstRoot = root;
 }
+
 void solveQuadraticEquation(double a, double b, double c, double* firstRoot, double* secondRoot)
 {
     double d = discriminant(a, b, c);
@@ -78,29 +84,75 @@ void solveQuadraticEquation(double a, double b, double c, double* firstRoot, dou
 
     *firstRoot =  (-b - squareRoot) / (2*a);
     *secondRoot = (-b + squareRoot) / (2*a);
+    if (*firstRoot > *secondRoot)
+    {
+        swap(*firstRoot, *secondRoot);
+    }
 }
-void solveEquation(double a, double b, double c)
+
+void solveEquation(double a, double b, double c, double* firstRoot, double* secondRoot)
 {
-    double firstRoot = 0.0, secondRoot = 0.0;
+    //double firstRoot = 0.0, secondRoot = 0.0;
     enum equationSolveType definedEquationSolveType = defineEquationSolveType(&a, &b, &c);
 
     switch (definedEquationSolveType)
     {
         case NO_ROOTS:
-            printf("There are no roots\n");
+            //printf("There are no roots\n");
             break;
+
         case INFINITY_AMOUNT_OF_ROOTS:
-            printf("There are infinity amount of roots\n");
+            //printf("There are infinity amount of roots\n");
             break;
+
         case LINEAR:
-            solveLinearEquation                 (b, c, &firstRoot);
-            printf("There is 1 root: %.2lg\n",          firstRoot); 
+            solveLinearEquation                 (b, c, firstRoot);
+            //printf("There is 1 root: %.2lg\n",          firstRoot); 
             break;
+
         case QUADRATIC:
-            solveQuadraticEquation           (a, b, c, &firstRoot, &secondRoot);
-            printf("There are 2 roots: %.2lg, %.2lg\n", firstRoot, secondRoot);
+            solveQuadraticEquation           (a, b, c, firstRoot, secondRoot);
+            //printf("There are 2 roots: %.2lg, %.2lg\n", firstRoot, secondRoot);
             break;
+            
         default:
             break;
     }
+}
+
+int oneUnitTest(double a, double b, double c, enum equationSolveType expectedEquationSolveType, double firstExpectedRoot, double secondExpectedRoot)
+{
+    double firstSolvedRoot = 0.0, secondSolvedRoot = 0.0;
+    solveEquation(a, b, c, &firstSolvedRoot, &secondSolvedRoot);
+
+    enum equationSolveType solvedEquationSolveType = defineEquationSolveType(&a, &b, &c);
+    
+    if (!(solvedEquationSolveType == expectedEquationSolveType && isEqual(firstExpectedRoot, firstSolvedRoot)
+          && isEqual(secondExpectedRoot, secondSolvedRoot)))
+    {
+        printf("FAILED(%lg %lg %lg). SolveType expected: %d solved: %d. Roots expected: %lg %lg solved: %lg %lg\n", a, b, c, expectedEquationSolveType,
+                solvedEquationSolveType, firstExpectedRoot, secondExpectedRoot, firstSolvedRoot, secondSolvedRoot);
+        return 0;
+    }
+    else
+    {
+        printf("SUCCESFUL\n");
+        return 1;
+    }
+}
+void unitTests()
+{
+    oneUnitTest(0.0,  0.0,  0.0, INFINITY_AMOUNT_OF_ROOTS,  0.0, 0.0);
+    oneUnitTest(0.0,  0.0,  1.0, NO_ROOTS,                  0.0, 0.0);
+    oneUnitTest(0.0,  1.0,  0.0, LINEAR,                    0.0, 0.0);
+    oneUnitTest(0.0,  1.0,  1.0, LINEAR,                   -1.0, 0.0);
+    oneUnitTest(1.0,  0.0,  0.0, LINEAR,                    0.0, 0.0);
+    oneUnitTest(1.0,  0.0,  1.0, NO_ROOTS,                  0.0, 0.0);
+    oneUnitTest(1.0,  1.0,  0.0, QUADRATIC,                -1.0, 0.0);
+    oneUnitTest(1.0,  1.0,  1.0, NO_ROOTS,                  0.0, 0.0);
+
+    oneUnitTest(0.0,  2.5, -1.0, LINEAR,                    0.4, 0.0);
+    oneUnitTest(1.0, -5.0,  6.0, QUADRATIC,                 2.0, 3.0);
+
+    oneUnitTest(2.0, -12.5, 18.75, QUADRATIC, 2.5, 3.75);
 }
