@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
    }
    else
    {
-        printf("You entered not correct command");
+        printf("You entered not correct command\n");
    }   
 
    return 0;
