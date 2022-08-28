@@ -19,6 +19,13 @@
 //----------------------------------------------------------
 void makeDataEntryCorrect(double* a, double* b, double* c)
 {
+    assert(a);
+    assert(b);
+    assert(c);
+
+    assert(isfinite(*a));
+    assert(isfinite(*b));
+    assert(isfinite(*c));
 
     while (scanf("%lg %lg %lg", a, b, c) != 3)
     {
@@ -32,14 +39,6 @@ void makeDataEntryCorrect(double* a, double* b, double* c)
     {
         continue;
     }
-
-    assert(a);
-    assert(b);
-    assert(c);
-
-    assert(isfinite(*a));
-    assert(isfinite(*b));
-    assert(isfinite(*c));
 }
 
 //----------------------------------------------------------
